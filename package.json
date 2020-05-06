@@ -4,13 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon --exec babel-node server.js",
-    "seed": "sequelize db:seed:all",
-    "reset-db": "sequelize db:seed:undo:all",
-    "migrate": "sequelize db:migrate",
-    "create-migration": "sequelize migration:generate --name",
-    "create-model": "sequelize model:generate --name"
+    "start": "node server"
   },
   "dependencies": {
     "@babel/cli": "^7.4.3",
