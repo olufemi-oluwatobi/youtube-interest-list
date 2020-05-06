@@ -1,3 +1,5 @@
+require("dotenv").config({ path: __dirname + "/.env" });
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const statueCode = require("http-status-codes");
@@ -5,6 +7,7 @@ const cors = require("cors");
 const fs = require("fs");
 const queryString = require("querystring");
 const { google } = require("googleapis");
+const routes = require("./src/api/routes.v1");
 const path = require("path");
 const OAuth2 = google.auth.OAuth2;
 
@@ -33,13 +36,7 @@ app.use(express.static("public"));
 app.set("json spaces", 4);
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-
-app.get("/", (_, res) =>
-  res.status(200).json({
-    status: "running",
-    data: "Cost and benefits script running service",
-  })
-);
+routes(app);
 
 // const responsify = (res, data, success, code) => {
 //   return res.status(code).json({ success, data });
