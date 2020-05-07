@@ -12,7 +12,7 @@ const googleConfig = {
   clientId: process.env.CLIENT_ID, // e.g. asdfghjkljhgfdsghjk.apps.googleusercontent.com
   clientSecret: process.env.CLIENT_SECRET,
   redirect: [
-    "http://localhost:8000/user/redirect",
+    "http://localhost:8000/user/login",
     "http://localhost:8000/user/register",
   ], // this must match your google api settings
 };
@@ -62,4 +62,23 @@ export const getGoogleAccountFromCode = async (code, type) => {
     name: me.name,
     tokens,
   };
+};
+
+export const verifyToken = async (token) => {
+  const auth = createConnection();
+  try {
+    const ticket = await auth.verifyIdToken({
+      idToken: token,
+      audience: googleConfig.clientId,
+    });
+    console.log(ticket);
+    if (ticket) {
+      const payload = ticket.getPayload();
+      return payload;
+    } else {
+      return null;
+    }
+  } catch (_) {
+    return null;
+  }
 };
