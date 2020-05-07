@@ -18,6 +18,15 @@ export const findTokenByUserId = (userId) => {
   });
 };
 
+export const updateToken = (body) => {
+  const { user_id } = body;
+  return new Promise((resolve, reject) => {
+    AccessToken.update({ user_id }, body, (err, result) => {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+};
 export const createAccessToken = (body) => {
   return new Promise((resolve, reject) => {
     AccessToken.create(body, (err, result) => {
