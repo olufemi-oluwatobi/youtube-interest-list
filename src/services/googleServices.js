@@ -11,6 +11,7 @@ const SCOPES = [
 const googleConfig = {
   clientId: process.env.CLIENT_ID, // e.g. asdfghjkljhgfdsghjk.apps.googleusercontent.com
   clientSecret: process.env.CLIENT_SECRET,
+  apiKey: process.env.API_KEY,
   redirect: [
     "http://localhost:8000/user/login",
     "http://localhost:8000/user/register",
@@ -39,15 +40,29 @@ const authorize = (auth) => {
   return authUrl;
 };
 
+const getGooglePlusApi = (auth) => {
+  const service = google.oauth2({ version: "v2", auth });
+  return service.userinfo.v2.me.get();
+};
+
+export const performYouTubeSearch = async (token, query) => {
+  const youtube = google.youtube({ version: "v3", auth: googleConfig.apiKey });
+  const request = await youtube.search.list({
+    part: "snippet",
+    type: "video",
+    q: query,
+    maxResults: 10,
+    safeSearch: "none",
+    videoEmbeddable: true,
+  });
+  return request;
+};
 export const urlGoogle = (type) => {
   const authCredentials = createConnection(type);
   const url = authorize(authCredentials);
   return url;
 };
-const getGooglePlusApi = (auth) => {
-  const service = google.oauth2({ version: "v2", auth });
-  return service.userinfo.v2.me.get();
-};
+
 export const getGoogleAccountFromCode = async (code, type) => {
   const auth = createConnection(type);
   const data = await auth.getToken(code);
@@ -71,7 +86,6 @@ export const verifyToken = async (token) => {
       idToken: token,
       audience: googleConfig.clientId,
     });
-    console.log(ticket);
     if (ticket) {
       const payload = ticket.getPayload();
       return payload;

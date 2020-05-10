@@ -8,9 +8,10 @@ const schema = new Schema({
     type: String,
     default: () => uuidv1(),
   },
-  googleId: { type: String, required: true },
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  userId: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: String,
     default: Date.now(),
@@ -19,10 +20,14 @@ const schema = new Schema({
     type: String,
     default: Date.now(),
   },
+  title: {
+    type: String,
+    required: true,
+  },
 });
 
-const collectionName = "user";
-const userSchema = mongoose.Schema(schema);
-const User = mongoose.model(collectionName, userSchema);
+const collectionName = "list";
+const listSchema = mongoose.Schema(schema);
+const List = mongoose.model(collectionName, listSchema);
 
-export default User;
+export default List;

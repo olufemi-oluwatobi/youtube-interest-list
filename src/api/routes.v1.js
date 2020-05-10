@@ -1,4 +1,5 @@
 import userRouter from "./components/users/routes";
+import listRouter from "./components/list/routes";
 
 module.exports = (app) => {
   app.get("/", (req, res) => {
@@ -10,4 +11,5 @@ module.exports = (app) => {
   });
 
   app.use("/user", userRouter);
+  app.use("/list", listRouter);
 };

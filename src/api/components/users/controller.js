@@ -5,7 +5,6 @@ import {
 } from "../../../services/googleServices";
 import { findUserByGoogleId, findUsers, createUser } from "./services";
 import { updateToken, createAccessToken } from "../auth/services";
-import AccessToken from "../auth/model";
 
 export const generateUrl = async (req, res) => {
   try {
@@ -18,20 +17,6 @@ export const generateUrl = async (req, res) => {
         .status(statusCode.NOT_IMPLEMENTED)
         .json({ success: false, data: "failed to get auth url" });
     }
-    // const user = await findUsers(req.body);
-    // if (user.length > 0) {
-    //   res
-    //     .status(statusCode.FORBIDDEN)
-    //     .json({ success: false, data: "user exist" });
-    // } else {
-    //   const newUser = await createUser(req.body);
-    //   if (!newUser) {
-    //     res
-    //       .status(statusCode.NOT_IMPLEMENTED)
-    //       .json({ success: false, data: "failed to create user" });
-    //   }
-    //   res.status(statusCode.CREATED).json({ success: false, data: newUser });
-    // }
   } catch (error) {
     console.log(error);
   }
