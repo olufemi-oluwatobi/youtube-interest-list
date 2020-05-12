@@ -5,6 +5,7 @@ import {
 } from "../../../services/googleServices";
 import { findUserByGoogleId, findUsers, createUser } from "./services";
 import { updateToken, createAccessToken } from "../auth/services";
+import errorResponse from "../../helper/errorResponse";
 
 export const generateUrl = async (req, res) => {
   try {
@@ -18,7 +19,7 @@ export const generateUrl = async (req, res) => {
         .json({ success: false, data: "failed to get auth url" });
     }
   } catch (error) {
-    console.log(error);
+    errorResponse(error, res);
   }
 };
 export const signin = async (req, res) => {
@@ -53,10 +54,7 @@ export const signin = async (req, res) => {
         .json({ success: true, data: "user doesnt exist" });
     }
   } catch (error) {
-    const err = JSON.stringify(error, ["message", "arguments", "type", "name"]);
-    res
-      .status(statusCode.INTERNAL_SERVER_ERROR)
-      .json({ success: false, data: JSON.parse(err) });
+    errorResponse(error, res);
   }
 };
 export const register = async (req, res) => {
@@ -96,10 +94,7 @@ export const register = async (req, res) => {
       .status(statusCode.BAD_REQUEST)
       .json({ success: true, data: "user already exists" });
   } catch (error) {
-    const err = JSON.stringify(error, ["message", "arguments", "type", "name"]);
-    res
-      .status(statusCode.INTERNAL_SERVER_ERROR)
-      .json({ success: false, data: JSON.parse(err) });
+    errorResponse(error, res);
   }
 };
 
@@ -108,6 +103,6 @@ export const index = async (req, res) => {
     const users = await findUsers({});
     res.status(statusCode.OK).json({ success: true, data: users });
   } catch (error) {
-    console.log(error);
+    errorResponse(error, res);
   }
 };

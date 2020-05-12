@@ -3,6 +3,7 @@ import jwt from "jwt-decode";
 import { performYouTubeSearch } from "../../../services/googleServices";
 import { createList } from "./services";
 import { findUserByGoogleId } from "../users/services";
+import errorResponse from "../../helper/errorResponse";
 
 export const create = async (req, res) => {
   try {
@@ -26,6 +27,6 @@ export const create = async (req, res) => {
     }
     res.status(statusCode.CREATED).json({ success: true, data: list });
   } catch (error) {
-    console.log(error);
+    errorResponse(error, res);
   }
 };
