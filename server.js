@@ -3,7 +3,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const routes = require("./src/api/routes.v1");
-const auth = require("./src/api/middlewares/auth");
 
 const port = 8000;
 const app = express();
@@ -16,7 +15,6 @@ app.use(
 
 app.use(express.static("public"));
 app.set("json spaces", 4);
-app.use(auth);
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 routes(app);

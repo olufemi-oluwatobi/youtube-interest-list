@@ -24,6 +24,7 @@ const schema = new Schema({
     type: String,
     required: true,
   },
+  videos: [{ link: String, title: String, _id: String }],
 });
 
 const collectionName = "list";

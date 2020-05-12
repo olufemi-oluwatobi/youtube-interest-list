@@ -45,17 +45,28 @@ const getGooglePlusApi = (auth) => {
   return service.userinfo.v2.me.get();
 };
 
-export const performYouTubeSearch = async (token, query) => {
+export const performYouTubeSearch = async (query) => {
+  console.log("query", query);
   const youtube = google.youtube({ version: "v3", auth: googleConfig.apiKey });
   const request = await youtube.search.list({
     part: "snippet",
     type: "video",
     q: query,
     maxResults: 10,
+    order: "viewCount",
     safeSearch: "none",
     videoEmbeddable: true,
   });
-  return request;
+  if (request) {
+    return request.data.items.map((item) => {
+      return {
+        _id: item.id.videoId,
+        title: item.snippet.title,
+        link: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+      };
+    });
+  }
+  return [];
 };
 export const urlGoogle = (type) => {
   const authCredentials = createConnection(type);
